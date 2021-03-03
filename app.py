@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import re
 from datetime import datetime
 
 import requests
@@ -40,7 +41,17 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    send_message(sender_id, "roger that!")
+                    m = re.match("(?i)Stan is", message_text)
+                    if m:
+                        send_message(sender_id, "generic")
+                        return "ok", 200
+
+                    m = re.match("(?i)Vicknesh", message_text)
+                    if m:
+                        send_message(sender_id, "Ravikumar")
+                        return "ok", 200
+                
+                send_message(sender_id, "I don't understand you ):")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
